@@ -49,7 +49,8 @@ def pair_vpics(pics):
             jdx = idx+1
             while jdx < len(pics):
                 if (pics[jdx].type == 'V'):
-                    lst.append(Pic(pics[jdx]))
+                    lst.append(Pic(pics[jdx].idx, pics[jdx].type, pics[jdx].tag_num,
+                        list(pics[jdx].tags)))
                     pics[jdx] = Pic(0,0,0,0)
                     break
                 jdx += 1
@@ -57,6 +58,7 @@ def pair_vpics(pics):
         elif pics[idx].type == 'H' or pics[idx].type == 'V':
             lst.append(pics[idx])
         idx += 1
+    lst.append(pics[-1])
     return lst
 
 ################################################################################
