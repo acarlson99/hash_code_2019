@@ -17,6 +17,9 @@ def read_file(path):
     return (num_of_pics, pics)
 
 def write_file(path, slides):
+    """
+    Vertical slices must be together, otherwise, this does not work
+    """
     with open(path, 'w') as f:
         f.write(str(len(slides)) + '\n')
         idx = 0
