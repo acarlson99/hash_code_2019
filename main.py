@@ -35,9 +35,9 @@ def write_file(path, slides):
 ################################################################################
 
 def score(p1, p2):
-    s1 = len(list(set(p1[3]).intersection(p2[3])))
-    s2 = len(np.setdiff1d(p1[3], p2[3]))
-    s3 = len(np.setdiff1d(p2[3], p1[3]))
+    s1 = len(list(set(p1.tags).intersection(p2.tags)))
+    s2 = len(np.setdiff1d(p1.tags, p2.tags))
+    s3 = len(np.setdiff1d(p2.tags, p1.tags))
     return (min(s1, s2, s3))
 
 def main(path):
