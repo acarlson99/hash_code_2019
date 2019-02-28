@@ -18,7 +18,7 @@ def read_file(path):
 
 def write_file(path, slides):
     """
-    Vertical slices must be together, otherwise, this does not work
+    Vertical slices must be together; otherwise, this does not work!!!
     """
     with open(path, 'w') as f:
         f.write(str(len(slides)) + '\n')
@@ -34,6 +34,30 @@ def write_file(path, slides):
 
 ################################################################################
 
+def pair_vpics(pics):
+    """
+    Number of vertical pics must be even for this to work.
+    """
+    Pic = namedtuple('Pic', ['idx','type','tag_num','tags'])
+    lst = []
+    idx = 0
+    while idx < len(pics)-1:
+        if pics[idx].type == 'V' and pics[idx+1].type != 'V':
+            lst.append(pics[idx])
+            jdx = idx+2;
+            while jdx < len(pics):
+                if (pics[jdx].type == 'V'):
+                    lst.append(pics[jdx])
+                    pics[jdx] = Pic(0,0,0,0)
+                    break
+                jdx += 1
+        elif pics[idx].type == 'H' or pics[idx].type == 'V':
+            lst.append(pics[idx])
+        idx += 1
+    return lst
+
+################################################################################
+
 def score(p1, p2):
     s1 = len(list(set(p1[3]).intersection(p2[3])))
     s2 = len(np.setdiff1d(p1[3], p2[3]))
@@ -42,10 +66,9 @@ def score(p1, p2):
 
 def main(path):
     num_of_pics, pics = read_file(path)
-    print(num_of_pics, pics)
-    print(pics)
     # GUYS! DO STUFF
-    slides = pics # This is just temporary
+    print(pics)
+    slides = pair_vpics(pics) # This is just temporary
     write_file('the_answer.txt', slides)
 
 if __name__ == '__main__':
