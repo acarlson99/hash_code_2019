@@ -62,7 +62,6 @@ def score(p1, p2):
     s1 = len(list(set(p1.tags).intersection(p2.tags)))
     s2 = len(np.setdiff1d(p1.tags, p2.tags))
     s3 = len(np.setdiff1d(p2.tags, p1.tags))
-    print(s1, s2, s3)
     return (min(s1, s2, s3))
 
 def sort(pics):
@@ -82,14 +81,8 @@ def sort(pics):
 
 def main(path):
     num_of_pics, pics = read_file(path)
-<<<<<<< HEAD
-=======
-    print(pics)
     sort(pics)
-    print(pics)
->>>>>>> 2cdd47b0b69edcbc47e4be0e080b053e8ec3ff65
     # GUYS! DO STUFF
-    print(pics)
     slides = pair_vpics(pics) # This is just temporary
     write_file('the_answer.txt', slides)
 
