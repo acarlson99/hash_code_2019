@@ -26,12 +26,6 @@ def write_file(path, slides):
         f.write(str(len(slides)) + '\n')
         idx = 0
         while idx < len(slides):
-            #if slides[idx].type == 'H':
-            #    f.write(str(slides[idx].idx) + '\n')
-            #elif slides[idx].type == 'V':
-            #    f.write(str(slides[idx].idx) + ' ')
-            #    if idx+1 < len(slides):
-            #        f.write(str(slides[idx+1].idx) + '\n')
             if len(slides[idx]) == 1 and slides[idx][0].type == 'H':
                 f.write(str(slides[idx][0].idx) + '\n')
             elif len(slides[idx]) == 2:
@@ -44,7 +38,6 @@ def pair_vpics(pics):
     """
     Number of vertical pics must be even for this to work.
     """
-    Pic = namedtuple('Pic', ['idx','type','tag_num','tags'])
     lst = []
     idx = 0
     while idx < len(pics)-1:
@@ -115,6 +108,8 @@ def sort(pics):
 
 def main(path):
     num_of_pics, pics = read_file(path)
+    hpics = list(filter(lambda p: p.type == 'H', pics))
+    vpics = list(filter(lambda p: p.type == 'V', pics))
 #    sort(pics)
     # GUYS! DO STUFF
     slides = pics
