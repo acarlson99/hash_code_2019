@@ -7,8 +7,9 @@ import sys
 
 ################################################################################
 
+Pic = namedtuple('Pic', ['idx','type','tag_num','tags'])
+
 def read_file(path):
-    Pic = namedtuple('Pic', ['idx','type','tag_num','tags'])
     lines = []
     with open(path, 'r') as f:
         lines = f.read().splitlines()
@@ -22,16 +23,19 @@ def write_file(path, slides):
     Vertical slices must be together; otherwise, this does not work!!!
     """
     with open(path, 'w') as f:
-        f.write(str(len(slides)-1) + '\n')
+        f.write(str(len(slides)) + '\n')
         idx = 0
         while idx < len(slides):
-            if slides[idx].type == 'H':
-                f.write(str(slides[idx].idx) + '\n')
-            elif slides[idx].type == 'V':
-                f.write(str(slides[idx].idx) + ' ')
-                if idx+1 < len(slides):
-                    f.write(str(slides[idx+1].idx) + '\n')
-                idx += 1
+            #if slides[idx].type == 'H':
+            #    f.write(str(slides[idx].idx) + '\n')
+            #elif slides[idx].type == 'V':
+            #    f.write(str(slides[idx].idx) + ' ')
+            #    if idx+1 < len(slides):
+            #        f.write(str(slides[idx+1].idx) + '\n')
+            if len(slides[idx]) == 1 and slides[idx][0].type == 'H':
+                f.write(str(slides[idx][0].idx) + '\n')
+            elif len(slides[idx]) == 2:
+                f.write(str(slides[idx][0].idx) + ' ' + str(slides[idx][1].idx) + '\n')
             idx += 1
 
 ################################################################################
@@ -45,20 +49,45 @@ def pair_vpics(pics):
     idx = 0
     while idx < len(pics)-1:
         if pics[idx].type == 'V' and pics[idx+1].type != 'V':
-            lst.append(pics[idx])
+            tmp = []
+            tmp.append(Pic(pics[idx].idx, pics[idx].type, pics[idx].tag_num,
+                        list(pics[idx].tags)))
             jdx = idx+1
             while jdx < len(pics):
                 if (pics[jdx].type == 'V'):
-                    lst.append(Pic(pics[jdx].idx, pics[jdx].type, pics[jdx].tag_num,
+                    tmp.append(Pic(pics[jdx].idx, pics[jdx].type, pics[jdx].tag_num,
                         list(pics[jdx].tags)))
                     pics[jdx] = Pic(0,0,0,0)
                     break
                 jdx += 1
+            lst.append(tmp)
+            idx += 1
+        elif pics[idx].type == 'V' and pics[idx+1].type == 'V':
+            tmp = []
+            tmp.append(Pic(pics[idx].idx, pics[idx].type, pics[idx].tag_num,
+                        list(pics[idx].tags)))
+            tmp.append(Pic(pics[idx+1].idx, pics[idx+1].type, pics[idx+1].tag_num,
+                        list(pics[idx+1].tags)))
+            lst.append(tmp)
             idx += 1
         elif pics[idx].type == 'H' or pics[idx].type == 'V':
-            lst.append(pics[idx])
+            lst.append([pics[idx]])
         idx += 1
-    lst.append(pics[-1])
+    lst.append([pics[-1]])
+    return lst
+
+def pair_again(slides):
+    lst = []
+    idx = 0;
+    len_ = len(slides)
+    while idx < len_:
+        if slides[idx].type == 'H':
+            lst.append([slides[idx]])
+            idx += 1
+        elif slides[idx].type == 'V':
+            lst.append([slides[idx], slides[idx+1]])
+            idx += 2
+            #len_ -= 1
     return lst
 
 ################################################################################
@@ -89,7 +118,10 @@ def main(path):
 #    sort(pics)
     # GUYS! DO STUFF
     slides = pics
+#    print(pics)
     slides = pair_vpics(pics) # This is just temporary
+#    slides = pair_again(slides)
+    slides = list(filter(lambda s: s != Pic(0,0,0,0), slides))
     write_file('the_answer.txt', slides)
 
 if __name__ == '__main__':
