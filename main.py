@@ -1,5 +1,6 @@
 #! /usr/bin/env python3
 
+import os
 import numpy as np
 from collections import namedtuple
 import sys
@@ -11,7 +12,7 @@ def read_file(path):
     lines = []
     with open(path, 'r') as f:
         lines = f.read().splitlines()
-    num_of_pics = int(lines[0][0])
+    num_of_pics = int(lines[0])
     pics = [line.split() for line in lines[1:]]
     pics = [Pic(idx, pic[0], int(pic[1]), pic[2:]) for idx, pic in enumerate(pics)]
     return (num_of_pics, pics)
@@ -21,7 +22,7 @@ def write_file(path, slides):
     Vertical slices must be together; otherwise, this does not work!!!
     """
     with open(path, 'w') as f:
-        f.write(str(len(slides)) + '\n')
+        f.write(str(len(slides)-1) + '\n')
         idx = 0
         while idx < len(slides):
             if slides[idx].type == 'H':
@@ -30,10 +31,11 @@ def write_file(path, slides):
                 f.write(str(slides[idx].idx) + ' ')
                 if idx+1 < len(slides):
                     f.write(str(slides[idx+1].idx) + '\n')
-                else:
-                    f.write('\n')
                 idx += 1
             idx += 1
+#    with open(path, 'rb+') as f:
+#        f.seek(-1, os.SEEK_END)
+#        f.truncate()
 
 ################################################################################
 
@@ -54,6 +56,7 @@ def pair_vpics(pics):
                     pics[jdx] = Pic(0,0,0,0)
                     break
                 jdx += 1
+            idx += 1
         elif pics[idx].type == 'H' or pics[idx].type == 'V':
             lst.append(pics[idx])
         idx += 1
@@ -84,9 +87,10 @@ def sort(pics):
 
 def main(path):
     num_of_pics, pics = read_file(path)
-    sort(pics)
+#    sort(pics)
     # GUYS! DO STUFF
-    slides = pair_vpics(pics) # This is just temporary
+    slides = pics
+    #slides = pair_vpics(pics) # This is just temporary
     write_file('the_answer.txt', slides)
 
 if __name__ == '__main__':
