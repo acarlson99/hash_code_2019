@@ -112,8 +112,13 @@ def main(path):
     num_of_pics, pics = read_file(path)
     hpics = list(filter(lambda p: p.type == 'H', pics))
     vpics = list(filter(lambda p: p.type == 'V', pics))
-    shuffle(hpics)
-    shuffle(vpics)
+    hpics.sort(key=lambda x: x.tags)
+    vpics.sort(key=lambda x: x.tags)
+    hpics = [[pic] for pic in hpics]
+    vpics = [[pic] for pic in vpics]
+    tpics = [hpics, vpics].sort()
+    hpics = list(filter(lambda p: p.type == 'H', tpics))
+    vpics = list(filter(lambda p: p.type == 'V', tpics))
     with open("the_answer.txt", 'w') as f:
         f.write(str(int(len(hpics) + len(vpics) / 2)) + "\n")
         for n in hpics:
