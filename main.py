@@ -26,9 +26,12 @@ def write_file(path, slides):
         while idx < len(slides):
             if slides[idx].type == 'H':
                 f.write(str(slides[idx].idx) + '\n')
-            else:
+            elif slides[idx].type == 'V':
                 f.write(str(slides[idx].idx) + ' ')
-                f.write(str(slides[idx+1].idx) + '\n')
+                if idx+1 < len(slides):
+                    f.write(str(slides[idx+1].idx) + '\n')
+                else:
+                    f.write('\n')
                 idx += 1
             idx += 1
 
