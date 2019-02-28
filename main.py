@@ -1,4 +1,4 @@
-#! /usr/bin/env python3
+#!/usr/bin/env python3
 
 import os
 import numpy as np
@@ -33,9 +33,6 @@ def write_file(path, slides):
                     f.write(str(slides[idx+1].idx) + '\n')
                 idx += 1
             idx += 1
-#    with open(path, 'rb+') as f:
-#        f.seek(-1, os.SEEK_END)
-#        f.truncate()
 
 ################################################################################
 
@@ -49,10 +46,10 @@ def pair_vpics(pics):
     while idx < len(pics)-1:
         if pics[idx].type == 'V' and pics[idx+1].type != 'V':
             lst.append(pics[idx])
-            jdx = idx+2;
+            jdx = idx+1
             while jdx < len(pics):
                 if (pics[jdx].type == 'V'):
-                    lst.append(pics[jdx])
+                    lst.append(Pic(pics[jdx]))
                     pics[jdx] = Pic(0,0,0,0)
                     break
                 jdx += 1
@@ -90,7 +87,7 @@ def main(path):
 #    sort(pics)
     # GUYS! DO STUFF
     slides = pics
-    #slides = pair_vpics(pics) # This is just temporary
+    slides = pair_vpics(pics) # This is just temporary
     write_file('the_answer.txt', slides)
 
 if __name__ == '__main__':
