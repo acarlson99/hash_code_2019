@@ -13,13 +13,18 @@ def read_file(path):
     pics = [Pic(idx, pic[0], int(pic[1]), pic[2:]) for idx, pic in enumerate(pics)]
     return (num_of_pics, pics)
 
-"""
-def write_file(slides):
+def write_file(path, slides):
     with open(path, 'w') as f:
-        f.write(str(len(slides) + '\n'))
-        for slide in slides:
-            if slide[`]
-"""
+        f.write(str(len(slides)) + '\n')
+        idx = 0
+        while idx < len(slides):
+            if slides[idx].type == 'H':
+                f.write(str(slides[idx].idx) + '\n')
+            else:
+                f.write(str(slides[idx].idx) + ' ')
+                f.write(str(slides[idx+1].idx) + '\n')
+                idx += 1
+            idx += 1
 
 ################################################################################
 
@@ -27,8 +32,8 @@ def main(path):
     num_of_pics, pics = read_file(path)
     print(pics)
     # GUYS! DO STUFF
-    #slides = pics # This is just temporary
-    #write_file(slides)
+    slides = pics # This is just temporary
+    write_file('the_answer.txt', slides)
 
 if __name__ == '__main__':
     if (len(sys.argv) == 2):
