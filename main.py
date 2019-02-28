@@ -110,14 +110,22 @@ def main(path):
     num_of_pics, pics = read_file(path)
     hpics = list(filter(lambda p: p.type == 'H', pics))
     vpics = list(filter(lambda p: p.type == 'V', pics))
+    with open("the_answer.txt", 'w') as f:
+        f.write(str(int(len(hpics) + len(vpics) / 2)) + "\n")
+        for n in hpics:
+            f.write(str(n.idx) + "\n")
+        i = 0
+        while i < len(vpics) - 1:
+            f.write(str(vpics[i].idx) + " " + str(vpics[i+1].idx) + "\n")
+            i += 2
 #    sort(pics)
     # GUYS! DO STUFF
-    slides = pics
+    # slides = pics
 #    print(pics)
-    slides = pair_vpics(pics) # This is just temporary
+    # slides = pair_vpics(pics) # This is just temporary
 #    slides = pair_again(slides)
-    slides = list(filter(lambda s: s != Pic(0,0,0,0), slides))
-    write_file('the_answer.txt', slides)
+    # slides = list(filter(lambda s: s != Pic(0,0,0,0), slides))
+    # write_file('the_answer.txt', slides)
 
 if __name__ == '__main__':
     if (len(sys.argv) == 2):
