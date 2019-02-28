@@ -38,11 +38,28 @@ def score(p1, p2):
     s1 = len(list(set(p1.tags).intersection(p2.tags)))
     s2 = len(np.setdiff1d(p1.tags, p2.tags))
     s3 = len(np.setdiff1d(p2.tags, p1.tags))
+    print(s1, s2, s3)
     return (min(s1, s2, s3))
+
+def sort(pics):
+    go = 1
+    while go:
+        go = 0
+        for i in range(len(pics)):
+            try:
+                if (score(pics[i], pics[i+1]) > score(pics[i], pics[i+2])):
+                    go = 1
+                    tmp = pics[i]
+                    pics[i] = pics[i+1]
+                    pics[i+1] = tmp
+            except IndexError:
+                break
+    return (pics)
 
 def main(path):
     num_of_pics, pics = read_file(path)
-    print(num_of_pics, pics)
+    print(pics)
+    sort(pics)
     print(pics)
     # GUYS! DO STUFF
     slides = pics # This is just temporary
