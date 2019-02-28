@@ -59,13 +59,35 @@ def pair_vpics(pics):
 ################################################################################
 
 def score(p1, p2):
-    s1 = len(list(set(p1[3]).intersection(p2[3])))
-    s2 = len(np.setdiff1d(p1[3], p2[3]))
-    s3 = len(np.setdiff1d(p2[3], p1[3]))
+    s1 = len(list(set(p1.tags).intersection(p2.tags)))
+    s2 = len(np.setdiff1d(p1.tags, p2.tags))
+    s3 = len(np.setdiff1d(p2.tags, p1.tags))
+    print(s1, s2, s3)
     return (min(s1, s2, s3))
+
+def sort(pics):
+    go = 1
+    while go:
+        go = 0
+        for i in range(len(pics)):
+            try:
+                if (score(pics[i], pics[i+1]) > score(pics[i], pics[i+2])):
+                    go = 1
+                    tmp = pics[i]
+                    pics[i] = pics[i+1]
+                    pics[i+1] = tmp
+            except IndexError:
+                break
+    return (pics)
 
 def main(path):
     num_of_pics, pics = read_file(path)
+<<<<<<< HEAD
+=======
+    print(pics)
+    sort(pics)
+    print(pics)
+>>>>>>> 2cdd47b0b69edcbc47e4be0e080b053e8ec3ff65
     # GUYS! DO STUFF
     print(pics)
     slides = pair_vpics(pics) # This is just temporary
