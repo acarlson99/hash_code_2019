@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+from random import shuffle
+from functools import reduce
 import os
 import numpy as np
 from collections import namedtuple
@@ -110,6 +112,8 @@ def main(path):
     num_of_pics, pics = read_file(path)
     hpics = list(filter(lambda p: p.type == 'H', pics))
     vpics = list(filter(lambda p: p.type == 'V', pics))
+    shuffle(hpics)
+    shuffle(vpics)
     with open("the_answer.txt", 'w') as f:
         f.write(str(int(len(hpics) + len(vpics) / 2)) + "\n")
         for n in hpics:
